@@ -454,7 +454,8 @@ POSTRequest(PostParams);
    }
    
 public static void POSTRequest(String Params) throws IOException {
-
+   //Check out
+//https://stackoverflow.com/questions/25011927/how-to-get-response-body-using-httpurlconnection-when-code-other-than-2xx-is-re
     //System.out.println(Params);
     URL obj = new URL("http://localhost:5279/");
     HttpURLConnection postConnection = (HttpURLConnection) obj.openConnection();
