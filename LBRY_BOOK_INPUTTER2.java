@@ -50,7 +50,7 @@ public class LBRY_BOOK_INPUTTER2 {
    public static File[] myPublishFiles=new File[1000000]; 
     
    public static int myPublishFilesCounter=0;
-    
+   
    public static GridLayout experimentLayout = new GridLayout(0,2);
    public static GridLayout experimentLayout2 = new GridLayout(0,3);
     
@@ -89,6 +89,7 @@ public class LBRY_BOOK_INPUTTER2 {
    public static JPanel myPanel=new JPanel();
    public static JPanel myPanel2=new JPanel();
    
+ 
 public static void main(String[] args)throws AWTException, IOException {
         
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -174,18 +175,21 @@ public static class EscRobotListener  implements ActionListener{
  public static class FileChooserListener  implements ActionListener{
     @Override
   public void actionPerformed(ActionEvent e){
+     myTotalFilesCounter=0;
      JFileChooser chooser=new JFileChooser();
      chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
      chooser.setMultiSelectionEnabled(true);
      chooser.showDialog(frame,"Select Files");
 
      File[] files=chooser.getSelectedFiles();
+
+     
    for(int x=0;x<files.length;x++){
      if(files[x].isDirectory()){
       CheckSubFolder(files[x]); 
       }
        else{
-         System.out.println(files[x].getAbsolutePath()); 
+         //System.out.println(files[x].getAbsolutePath()); 
          myPublishFiles[myPublishFilesCounter]=new File(files[x].getAbsolutePath());
          myPublishFilesCounter++;
        }
@@ -209,10 +213,39 @@ public static class EscRobotListener  implements ActionListener{
              }
          }
   }
+   
+
     
 public static class RunProgramListener  implements ActionListener{
   @Override
   public void actionPerformed(ActionEvent e){
+     
+     
+   //////////////////////////////////////New Code
+   public static JFrame ProgressFrame=new JFrame();
+   public static JLabel myCurrentFileLabel=new JLabel("");
+   public static JPanel ProgressPanel=new JPanel();
+   public static JProgressBar progressBar=new JProgressBar();
+   progressBar.setMinimum(0);
+   progressBar.setMaximum(myPublishFilesCounter-1);
+   progressBar.setStringPainted(true);
+   ProgressPanel.add(myCurrentFileLabel,BorderLayout.NORTH);
+   ProgressPanel.add(progressBar,BorderLayout.SOUTH);
+   ProgressFrame.setLocationRelativeTo(null);
+   ProgressFrame.setSize(400,200);
+   ProgressFrame.setTitle("Publishing...");
+   ProgressFrame.add(ProgressPanel);
+/////////////Inside Process()
+/////////after each file, set myCurrentFile's label to new files name
+
+
+
+////////////////////
+   
+   
+  
+     
+     
         JFrame Warningframe1 = new JFrame("Message General Error");
         JFrame Warningframe9 = new JFrame("Message File Path");
         JFrame Warningframe2 = new JFrame("Message Channel Name");
@@ -294,6 +327,11 @@ public static class RunProgramListener  implements ActionListener{
      
       for(int i=0;i<myPublishFilesCounter;i++){
         try {   
+           ///////////new code
+           myCurrentFileLabel=new JLabel(String.valueOf(i+1)+" of "+myPublishFilesCounter+"  "+myPublishFiles[i].getName());
+           progressBar.setValue(i);
+           ///////////new code
+           
            Process(myPublishFiles[i], channel, myPrice,myWallet,myCoverURL,Description,i);
          } 
           catch (IOException ex) {
