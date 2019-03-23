@@ -318,68 +318,63 @@ public static void Process(File FilePath,String channelName, double price, Strin
    String NSFW="false";
    String currency="LBC";
    String hasCoverURL="true";
-String myCounter=String.valueOf(Counter+1);
-if(jrbNSFWTrue.isSelected()){
-  NSFW="true";  
-}
-else{
-  NSFW="false";  
-}
+   String myCounter=String.valueOf(Counter+1);
+  if(jrbNSFWTrue.isSelected()){
+   NSFW="true";  
+  }
+   else{
+    NSFW="false";  
+   }
 
-if(jrbCurrencyLBC.isSelected()){
-  currency="LBC";  
-}
-else{
-  currency="USD";  
-}
+  if(jrbCurrencyLBC.isSelected()){
+   currency="LBC";  
+  }
+   else{
+    currency="USD";  
+   }
 
-if(jrbHasCoverTrue.isSelected()){
-  hasCoverURL="true";  
-}
-else{
-  hasCoverURL="false";  
-}
-
-//String[] FolderFiles=FilePath.list();
-String[] ParentFolderNames=new String[50];
-int m=0;
-for(int n=0;n<50;n++){
-  ParentFolderNames[n]="";  
-}
-String myFilePath=FilePath.getAbsolutePath();
-    for(int i=0;i<myFilePath.length();i++){
-        if(myFilePath.charAt(i)=='\\'){
-          m++;
-        }
-        else{
-       ParentFolderNames[m]=ParentFolderNames[m].concat(myFilePath.substring(i, i+1)); 
-        }
+   if(jrbHasCoverTrue.isSelected()){
+    hasCoverURL="true";  
+   }
+    else{
+     hasCoverURL="false";  
     }
-     String openbracket="{";
-     String closedbracket="}";
-     
-//for(int x=0;x<FolderFiles.length;x++){
 
 
-
-      //String BookTitle=FolderFiles[x];   
-      String BookTitle=FilePath.getName();
-     Boolean hasntFoundDot=true;
-     String TitleWithoutSeries="";   
-     String PostParams=openbracket+"\n"+"\"jsonrpc\": \"2.0\","+"\n"+"\"method\": \"publish\","+"\n"+"\"params\":"+"\n"+openbracket+"\n"+"\"channel_name\": \"@"+channelName+"\","+"\n"+"\"name\": \"";
-      
+    String[] ParentFolderNames=new String[50];
+    int m=0;
+  for(int n=0;n<50;n++){
+    ParentFolderNames[n]="";  
+  }
+    String myFilePath=FilePath.getAbsolutePath();
+  for(int i=0;i<myFilePath.length();i++){
+   if(myFilePath.charAt(i)=='\\'){
+     m++;
+    }
+     else{
+      ParentFolderNames[m]=ParentFolderNames[m].concat(myFilePath.substring(i, i+1)); 
+     }
+    }
+   
+      String openbracket="{";
+      String closedbracket="}"; 
+      String BookTitle=FilePath.getName();  
+      String TitleWithoutSeries="";   
+      String PostParams=openbracket+"\n"+"\"jsonrpc\": \"2.0\","+"\n"+"\"method\": \"publish\","+"\n"+"\"params\":"+"\n"+openbracket+"\n"+"\"channel_name\": \"@"+channelName+"\","+"\n"+"\"name\": \"";
+      Boolean hasntFoundDot=true;
+   
     for(int i=0;i<BookTitle.length();i++){
-        if(BookTitle.charAt(i)!='.' && hasntFoundDot){
-          TitleWithoutSeries=TitleWithoutSeries.concat(BookTitle.substring(i, i+1));
-        }
-        else{
-            hasntFoundDot=false;
-        }
+      if(BookTitle.charAt(i)!='.' && hasntFoundDot){
+       TitleWithoutSeries=TitleWithoutSeries.concat(BookTitle.substring(i, i+1));
+      }
+       else{
+         hasntFoundDot=false;
+       }
         
     }
 
        
-        System.out.println(BookTitle);
+      //System.out.println(BookTitle);
       //Change it so that it only accepts acceptable characters instead of trying to eliminate all the unacceptable ones. This method below should work for 99% of publishes with english characters
       BookTitle=BookTitle.replace(" ", "");
       BookTitle=BookTitle.replace("'", "");
@@ -416,72 +411,64 @@ String myFilePath=FilePath.getAbsolutePath();
 
     PostParams=PostParams.concat(BookTitle); 
     PostParams=PostParams.concat("\",");
-PostParams=PostParams.concat("\n ");
-PostParams=PostParams.concat("\"file_path\":"+"\n");
-PostParams=PostParams.concat("\"");
+    PostParams=PostParams.concat("\n ");
+    PostParams=PostParams.concat("\"file_path\":"+"\n");
+    PostParams=PostParams.concat("\"");
 
 
-
-
-for(int g=0;g<50;g++){
+   for(int g=0;g<50;g++){
     if(ParentFolderNames[g]!=""){
-   PostParams=PostParams.concat(ParentFolderNames[g]+"\\\\");
+      PostParams=PostParams.concat(ParentFolderNames[g]+"\\\\");
     }
-}
-for(int x=0;x<Description.length();x++){
+   }
+   
+   for(int x=0;x<Description.length();x++){
     System.out.print(Description.charAt(x));
-}
-Description=Description.replaceAll("Title_with_Extension", FilePath.getName());
-Description=Description.replaceAll("Title_without_Extension", TitleWithoutSeries);
-Description=Description.replaceAll("Absolute_file_Path", FilePath.getAbsolutePath());
-Description=Description.replaceAll("My_file_Counter", myCounter);
-//Description=Description.replaceAll("Go_To_Next_Line", "\\\\n");
-//Description=Description.replaceAll("\\n", "\\\\n");
-//System.out.println(Description);
-PostParams=PostParams.substring(0, PostParams.length()-2);
-       PostParams=PostParams.concat("\","+"\n"+"\"bid\": \"0.0001\","+"\n"+"\"metadata\":"+"\n"+openbracket+"\n"+"\"description\":\""+Description);  
-     
+   }
+   
+     Description=Description.replaceAll("Title_with_Extension", FilePath.getName());
+     Description=Description.replaceAll("Title_without_Extension", TitleWithoutSeries);
+     Description=Description.replaceAll("Absolute_file_Path", FilePath.getAbsolutePath());
+     Description=Description.replaceAll("My_file_Counter", myCounter);
+
+     //System.out.println(Description);
+   
+     PostParams=PostParams.substring(0, PostParams.length()-2);
+     PostParams=PostParams.concat("\","+"\n"+"\"bid\": \"0.0001\","+"\n"+"\"metadata\":"+"\n"+openbracket+"\n"+"\"description\":\""+Description);  
      PostParams= PostParams.concat("\","+"\n");
 
-     //   robot.delay(50);
-
-if(price !=0.00){
-PostParams= PostParams.concat("\"fee\":"+"\n"+openbracket+"\n"+"\"address\": \""+walletAddress+"\","+"\n"+"\"amount\": "+price+",\n"+"\"currency\": \""+currency+"\""+"\n"+closedbracket+","+"\n");
-}
-if(jrbHasCoverTrue.isSelected()){
- PostParams=PostParams.concat("\"title\": \""+TitleWithoutSeries+"\","+"\n"+"\"thumbnail\": \""+CoverURL+"\","+"\n"+"\"language\": \"en\","+"\n"+"\"license\": \"Public\","+"\n"+"\"nsfw\": "+NSFW+"\n"+closedbracket+"\n"+closedbracket+"\n"+closedbracket);
-}
-else{
-    PostParams=PostParams.concat("\"title\": \""+TitleWithoutSeries+"\","+"\n"+"\"language\": \"en\","+"\n"+"\"license\": \"Public\","+"\n"+"\"nsfw\": "+NSFW+"\n"+closedbracket+"\n"+closedbracket+"\n"+closedbracket); 
-}
+ 
+   if(price !=0.00){
+      PostParams= PostParams.concat("\"fee\":"+"\n"+openbracket+"\n"+"\"address\": \""+walletAddress+"\","+"\n"+"\"amount\": "+price+",\n"+"\"currency\": \""+currency+"\""+"\n"+closedbracket+","+"\n");
+   }
+   
+   if(jrbHasCoverTrue.isSelected()){
+      PostParams=PostParams.concat("\"title\": \""+TitleWithoutSeries+"\","+"\n"+"\"thumbnail\": \""+CoverURL+"\","+"\n"+"\"language\": \"en\","+"\n"+"\"license\": \"Public\","+"\n"+"\"nsfw\": "+NSFW+"\n"+closedbracket+"\n"+closedbracket+"\n"+closedbracket);
+   }
+    else{
+      PostParams=PostParams.concat("\"title\": \""+TitleWithoutSeries+"\","+"\n"+"\"language\": \"en\","+"\n"+"\"license\": \"Public\","+"\n"+"\"nsfw\": "+NSFW+"\n"+closedbracket+"\n"+closedbracket+"\n"+closedbracket); 
+    }
         
 POSTRequest(PostParams);
 
- //robot.delay(50);
-
- 
-  // }
    }
-   public static void POSTRequest(String Params) throws IOException {
-
-       
    
-   System.out.println(Params);
+public static void POSTRequest(String Params) throws IOException {
+
+    //System.out.println(Params);
     URL obj = new URL("http://localhost:5279/");
     HttpURLConnection postConnection = (HttpURLConnection) obj.openConnection();
     postConnection.setRequestMethod("POST");
-
     postConnection.setDoOutput(true);
     OutputStream os = postConnection.getOutputStream();
     os.write(Params.getBytes());
     os.flush();
     os.close();
-    int responseCode = postConnection.getResponseCode();
    
-    System.out.println("POST Response Message : " + postConnection.getResponseMessage());
+    //int responseCode = postConnection.getResponseCode();
+    //System.out.println("POST Response Message : " + postConnection.getResponseMessage());
 }
-
-
+   
 }
 
 
