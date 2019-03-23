@@ -59,7 +59,7 @@ public class LBRY_BOOK_INPUTTER2 {
    public static JButton jbtChooseFiles = new JButton("Choose Files.");
     
    public static JLabel FilePath=new JLabel("Choose Files."); 
-   public static JLabel ChannelName=new JLabel("Channel Name. Does not accept anonymous input yet.");  
+   public static JLabel ChannelName=new JLabel("Channel Name. Type anonymous for anonymous publishing.");  
    public static JLabel Price=new JLabel("Price. As a double. Like 5.0, 10.5, 2,57."); 
    public static JLabel WalletAddres=new JLabel("Wallet Address.If price is free keep it as xxxxxxxx."); 
    public static JLabel Currency2=new JLabel("Currency.");
@@ -360,7 +360,13 @@ public static void Process(File FilePath,String channelName, double price, Strin
       String closedbracket="}"; 
       String BookTitle=FilePath.getName();  
       String TitleWithoutSeries="";   
-      String PostParams=openbracket+"\n"+"\"jsonrpc\": \"2.0\","+"\n"+"\"method\": \"publish\","+"\n"+"\"params\":"+"\n"+openbracket+"\n"+"\"channel_name\": \"@"+channelName+"\","+"\n"+"\"name\": \"";
+      String PostParams="";
+   if(channelName.lowerCase()!=anonymous){
+       PostParams=PostParams.concat(openbracket+"\n"+"\"jsonrpc\": \"2.0\","+"\n"+"\"method\": \"publish\","+"\n"+"\"params\":"+"\n"+openbracket+"\n"+"\"channel_name\": \"@"+channelName+"\","+"\n"+"\"name\": \"");
+   }
+   else{
+      PostParams=PostParams.concat(openbracket+"\n"+"\"jsonrpc\": \"2.0\","+"\n"+"\"method\": \"publish\","+"\n"+"\"params\":"+"\n"+openbracket+"\n"+"\"name\": \"");
+   }
       Boolean hasntFoundDot=true;
    
     for(int i=0;i<BookTitle.length();i++){
