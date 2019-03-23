@@ -39,7 +39,7 @@ public class LBRY_BOOK_INPUTTER2 {
 
    public  static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); 
     
-   public int screenRes = Toolkit.getDefaultToolkit().getScreenResolution
+   public int screenRes = Toolkit.getDefaultToolkit().getScreenResolution();
        
    public static  EscRobotListener JbtEscRobot=new EscRobotListener();
    public static  RunProgramListener JbtRunProgram=new RunProgramListener();
