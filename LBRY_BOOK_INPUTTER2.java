@@ -7,6 +7,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.io.IOException;
 import java.awt.Robot;
 import java.awt.Toolkit;
@@ -55,6 +56,7 @@ public class LBRY_BOOK_INPUTTER2 {
    public static GridLayout experimentLayout2 = new GridLayout(0,3);
     
    public static JButton button1 = new JButton("ESC");
+   public static JButton button3 = new JButton("ESC");
    public static JButton button2 = new JButton("Run Program");
    public static JButton jbtChooseFiles = new JButton("Choose Files.");
     
@@ -72,9 +74,11 @@ public class LBRY_BOOK_INPUTTER2 {
    public static JTextField jtfWalletAddres=new JTextField("xxxxxxxxxxxxxxxxxxxxxxx",50);  
    public static JTextField jtfCoverURL=new JTextField("https://i.imgur.com/TI60tyj.jpg",50);
     
+   public static JTextArea myProgressTextArea=new JTextArea("Starting...");
    public static JTextArea myDescription=new JTextArea("DESCRIPTION FOR YOUR FILES GO IN THIS BLOCK! \r\nEverything after the collons below are variables you can use for your description! \r\n \r\nTitle: Title_without_Extension \r\nFile Name: Title_with_Extension \r\nFile Path: Absolute_file_Path \r\nThe Number of the File in the List being publish: My_file_Counter");
    public static JScrollPane myScrollPane=new JScrollPane(myDescription, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-       
+   public static JScrollPane myProgressScrollPane=new JScrollPane(myProgressTextArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);    
+   
    public static JRadioButton jrbCurrencyLBC=new JRadioButton("LBC");
    public static JRadioButton jrbCurrencyUSD=new JRadioButton("USD");
    public static JRadioButton jrbNSFWTrue=new JRadioButton("True");
@@ -89,6 +93,20 @@ public class LBRY_BOOK_INPUTTER2 {
    public static JPanel myPanel=new JPanel();
    public static JPanel myPanel2=new JPanel();
    
+   public static JFrame ProgressFrame=new JFrame();
+   public static JLabel myCurrentFileLabel=new JLabel("AAAAAAAAAAAAA");
+   public static JPanel ProgressPanel=new JPanel();
+   public static JProgressBar progressBar=new JProgressBar();
+   
+   public static Color lbryGray3= Color.decode("#ced4da");
+   public static Color lbryGray4= Color.decode("#abb1b7");
+   public static Color lbryGray5= Color.decode("#898e93");
+   
+   public static Color lbryTeal3= Color.decode("#38d9a9");
+   public static Color lbryTeal4= Color.decode("#33b58f");
+   public static Color lbryTeal5= Color.decode("#2f9176");
+   
+   public  static Image StartUpImage=(new ImageIcon(System.getProperties().getProperty("user.dir")+"/src/lbry_book_inputter2/splash.png")).getImage();
  
 public static void main(String[] args)throws AWTException, IOException {
         
@@ -96,7 +114,8 @@ public static void main(String[] args)throws AWTException, IOException {
     frame.setSize((int)(screenSize.width*.85), (int)(screenSize.height*.85));
     frame.setResizable(false);
     frame.setLocationRelativeTo(null);
-        
+    frame.setIconImage(StartUpImage);
+    
     myPanel.setBackground(Color.white);
     myPanel2.setBackground(Color.white);
         
@@ -110,7 +129,10 @@ public static void main(String[] args)throws AWTException, IOException {
     myDescription.setEditable(true);
     myDescription.setLineWrap(true);
     myScrollPane.setSize((int)(screenSize.width*.85),(int)(screenSize.height*.30)); 
-  
+    myProgressTextArea.setEditable(false);
+    myProgressTextArea.setLineWrap(true);
+    myProgressScrollPane.setSize((int)(screenSize.width*.85),(int)(screenSize.height*.30));
+    
     NSFWButtonGroup.add(jrbNSFWTrue);
     NSFWButtonGroup.add(jrbNSFWFalse);      
     jrbNSFWFalse.setSelected(true);
@@ -158,6 +180,7 @@ public static void main(String[] args)throws AWTException, IOException {
        //frame.pack();
        button1.addActionListener(JbtEscRobot);
        button2.addActionListener(JbtRunProgram);
+       button3.addActionListener(JbtEscRobot);
        jbtChooseFiles.addActionListener(JbtmyFileChooser);
     
        new LBRY_BOOK_INPUTTER2();
@@ -175,7 +198,7 @@ public static class EscRobotListener  implements ActionListener{
  public static class FileChooserListener  implements ActionListener{
     @Override
   public void actionPerformed(ActionEvent e){
-     myTotalFilesCounter=0;
+
      JFileChooser chooser=new JFileChooser();
      chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
      chooser.setMultiSelectionEnabled(true);
@@ -189,7 +212,6 @@ public static class EscRobotListener  implements ActionListener{
       CheckSubFolder(files[x]); 
       }
        else{
-         //System.out.println(files[x].getAbsolutePath()); 
          myPublishFiles[myPublishFilesCounter]=new File(files[x].getAbsolutePath());
          myPublishFilesCounter++;
        }
@@ -220,27 +242,23 @@ public static class RunProgramListener  implements ActionListener{
   @Override
   public void actionPerformed(ActionEvent e){
      
-     
-   //////////////////////////////////////New Code
-   public static JFrame ProgressFrame=new JFrame();
-   public static JLabel myCurrentFileLabel=new JLabel("");
-   public static JPanel ProgressPanel=new JPanel();
-   public static JProgressBar progressBar=new JProgressBar();
+
    progressBar.setMinimum(0);
    progressBar.setMaximum(myPublishFilesCounter-1);
    progressBar.setStringPainted(true);
-   ProgressPanel.add(myCurrentFileLabel,BorderLayout.NORTH);
-   ProgressPanel.add(progressBar,BorderLayout.SOUTH);
+   ProgressPanel.add(myProgressScrollPane);
+   ProgressPanel.add(progressBar);
+  // ProgressPanel.add(button3);
+   ProgressPanel.setLayout(experimentLayout);
    ProgressFrame.setLocationRelativeTo(null);
-   ProgressFrame.setSize(400,200);
+   ProgressFrame.setSize(800,400);
    ProgressFrame.setTitle("Publishing...");
    ProgressFrame.add(ProgressPanel);
-/////////////Inside Process()
-/////////after each file, set myCurrentFile's label to new files name
-
-
-
-////////////////////
+   ProgressFrame.setIconImage(StartUpImage);
+   ProgressFrame.setVisible(true);
+   ProgressFrame.setLocationRelativeTo(null);
+   ProgressFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+   
    
    
   
@@ -262,7 +280,9 @@ public static class RunProgramListener  implements ActionListener{
         String myWallet="asdihasdkjhasdkjh";
         String myCoverURL="ksjdhfksjhdf";
         String Description;
-        Description=myDescription.getText().replaceAll("[\r\n]+", "\\\\n");
+        
+      // Description=myDescription.getText().replaceAll("[\r\n]+", " \\\\n ");
+      Description=myDescription.getText().replaceAll(System.lineSeparator(), " \\\\n ");
         Description=Description.replaceAll("\"", "\\\\\"");
 
      if(jtfChannelName.getText().length()>1){
@@ -324,15 +344,19 @@ public static class RunProgramListener  implements ActionListener{
 //System.out.println("Wallet Address : "+jtfWalletAddres.getText());
 //System.out.println("Cover URL : "+jtfCoverURL.getText()+"   "+myCoverURL);
      
-     
+
       for(int i=0;i<myPublishFilesCounter;i++){
+      // ProgressFrame.notify();
+       ProgressFrame.repaint();
+       ProgressFrame.update(ProgressFrame.getGraphics());
+       
+        myProgressTextArea.setText(String.valueOf(i+1)+" of "+String.valueOf(myPublishFilesCounter)+"  "+myPublishFiles[i].getName());
         try {   
-           ///////////new code
-           myCurrentFileLabel=new JLabel(String.valueOf(i+1)+" of "+myPublishFilesCounter+"  "+myPublishFiles[i].getName());
-           progressBar.setValue(i);
-           ///////////new code
+
            
            Process(myPublishFiles[i], channel, myPrice,myWallet,myCoverURL,Description,i);
+           progressBar.setValue(i);
+
          } 
           catch (IOException ex) {
            JOptionPane.showMessageDialog(Warningframe1,
@@ -399,11 +423,16 @@ public static void Process(File FilePath,String channelName, double price, Strin
       String BookTitle=FilePath.getName();  
       String TitleWithoutSeries="";   
       String PostParams="";
-   if(channelName.lowerCase()!=anonymous){
-       PostParams=PostParams.concat(openbracket+"\n"+"\"jsonrpc\": \"2.0\","+"\n"+"\"method\": \"publish\","+"\n"+"\"params\":"+"\n"+openbracket+"\n"+"\"channel_name\": \"@"+channelName+"\","+"\n"+"\"name\": \"");
+   if(channelName.startsWith("anonymous")){
+       PostParams=PostParams.concat(openbracket+"\n"+"\"jsonrpc\": \"2.0\","+"\n"+"\"method\": \"publish\","+"\n"+"\"params\":"+"\n"+openbracket+"\n"+"\"name\": \"");
+       
+   }
+   else if(channelName.startsWith("Anonymous")){
+       PostParams=PostParams.concat(openbracket+"\n"+"\"jsonrpc\": \"2.0\","+"\n"+"\"method\": \"publish\","+"\n"+"\"params\":"+"\n"+openbracket+"\n"+"\"name\": \"");
+       
    }
    else{
-      PostParams=PostParams.concat(openbracket+"\n"+"\"jsonrpc\": \"2.0\","+"\n"+"\"method\": \"publish\","+"\n"+"\"params\":"+"\n"+openbracket+"\n"+"\"name\": \"");
+      PostParams=PostParams.concat(openbracket+"\n"+"\"jsonrpc\": \"2.0\","+"\n"+"\"method\": \"publish\","+"\n"+"\"params\":"+"\n"+openbracket+"\n"+"\"channel_name\": \"@"+channelName+"\","+"\n"+"\"name\": \"");
    }
       Boolean hasntFoundDot=true;
    
@@ -466,9 +495,9 @@ public static void Process(File FilePath,String channelName, double price, Strin
     }
    }
    
-   for(int x=0;x<Description.length();x++){
-    System.out.print(Description.charAt(x));
-   }
+//   for(int x=0;x<Description.length();x++){
+//    System.out.print(Description.charAt(x));
+//   }
    
      Description=Description.replaceAll("Title_with_Extension", FilePath.getName());
      Description=Description.replaceAll("Title_without_Extension", TitleWithoutSeries);
@@ -500,7 +529,7 @@ POSTRequest(PostParams);
 public static void POSTRequest(String Params) throws IOException {
    //Check out
 //https://stackoverflow.com/questions/25011927/how-to-get-response-body-using-httpurlconnection-when-code-other-than-2xx-is-re
-    //System.out.println(Params);
+    System.out.println(Params);
     URL obj = new URL("http://localhost:5279/");
     HttpURLConnection postConnection = (HttpURLConnection) obj.openConnection();
     postConnection.setRequestMethod("POST");
@@ -511,9 +540,7 @@ public static void POSTRequest(String Params) throws IOException {
     os.close();
    
     //int responseCode = postConnection.getResponseCode();
-    //System.out.println("POST Response Message : " + postConnection.getResponseMessage());
+    System.out.println("POST Response Message : " + postConnection.getResponseMessage());
 }
    
 }
-
-
