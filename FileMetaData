@@ -1,0 +1,77 @@
+https://github.com/drewnoakes/metadata-extractor
+
+https://stackoverflow.com/questions/19224328/how-to-read-jpeg-file-attributes-with-java
+
+It will process files of type:
+
+JPEG
+TIFF
+WebP
+WAV
+AVI
+PSD
+PNG
+BMP
+GIF
+ICO
+PCX
+QuickTime
+MP4
+Camera Raw
+NEF (Nikon)
+CR2 (Canon)
+ORF (Olympus)
+ARW (Sony)
+RW2 (Panasonic)
+RWL (Leica)
+SRW (Samsung)
+Camera-specific "makernote" data is decoded for cameras manufactured by:
+
+Agfa
+Apple
+Canon
+Casio
+Epson
+Fujifilm
+Kodak
+Kyocera
+Leica
+Minolta
+Nikon
+Olympus
+Panasonic
+Pentax
+Reconyx
+Sanyo
+Sigma/Foveon
+Sony
+
+
+
+
+
+
+
+
+For PDF files
+
+http://www.java2s.com/Code/Jar/c/Downloadcomlowagietext217jar.htm
+https://coderanch.com/how-to/javadoc/itext-2.1.7/com/lowagie/text/pdf/PdfReader.html
+https://www.programcreek.com/java-api-examples/index.php?api=com.lowagie.text.pdf.PdfReader
+https://coderanch.com/how-to/javadoc/itext-2.1.7/com/lowagie/text/Meta.html
+https://coderanch.com/how-to/javadoc/itext-2.1.7/overview-summary.html
+
+Epub 
+http://www.siegmann.nl/epublib
+
+
+Mobi ??
+
+
+
+CBR and CBZ
+cbr is actually just a rar file, and cbz is regular zip files
+http://jomic.sourceforge.net/
+
+Audio
+https://stackoverflow.com/questions/47957848/java-getting-the-metadata-tags-from-a-wave-audio-file
