@@ -308,7 +308,20 @@ public  LBRY_BOOK_INPUTTER2() throws IOException{
             ex.printStackTrace();
         }
         StartUpImage=(new ImageIcon(System.getProperty("user.dir")+"\\src\\icon.png")).getImage(); 
-                 
+       
+   
+   ////////////////////////062719
+   File DistFolder= new File(System.getProperty("user.dir"));
+   File SrcFolder=new File(DistFolder.getParent()+file.seperator+"src");
+   File IconImage=new File(SrcFolder.getAbsoluteFilePath()+file.seperator+"splash.png");
+   StartUpImage=(new ImageIcon(IconImage.getAbsoluteFilePath())).getImage();
+   ////////////////////////////062719 
+   
+   
+   
+   
+   
+   
      myPanel.setBorder(border);
     myPanel2.setBorder(border);
     
