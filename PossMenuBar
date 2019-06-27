@@ -1,0 +1,15 @@
+JMenuBar menuBar;
+JMenu AdvancedMenu, HelpMenu;
+JMenuItem ReadMeMenuItem;
+
+menuBar = new JMenuBar();
+
+AdvancedMenu = new JMenu("Advanced");
+menuBar.add(AdvancedMenu);
+
+HelpMenu = new JMenu("Help");
+menuBar.add(HelpMenu);
+//a group of JMenuItems
+ReadMeMenuItem = new JMenuItem("ReadMe Text File");
+
+HelpMenu.add(ReadMeMenuItem);
