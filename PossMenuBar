@@ -13,3 +13,19 @@ menuBar.add(HelpMenu);
 ReadMeMenuItem = new JMenuItem("ReadMe Text File");
 
 HelpMenu.add(ReadMeMenuItem);
+
+LBCMenu = new JMenu(LBCInWallet+" LBC ");
+UTXOsMenu = new JMenu(UTXOsInWallet+" UTXOs ");
+
+
+public class DisplayWalletInfoListener  implements ActionListener{
+    @Override
+    public void actionPerformed(ActionEvent e){
+    JFrame WalletInfoFrame = new JFrame("Message General Error");
+         JOptionPane.showMessageDialog(WalletInfoFrame,
+         LBCInWallet+" LBC, "+UTXOsInWallet+" UTXOs, ",
+         "Message",
+         JOptionPane.PLAIN_MESSAGE);        
+      
+    
+    }}
